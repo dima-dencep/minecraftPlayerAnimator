@@ -18,4 +18,4 @@ include 'minecraft'
 
 include "minecraft:common"
 include "minecraft:fabric"
-include "minecraft:forge"
+// include "minecraft:forge"
