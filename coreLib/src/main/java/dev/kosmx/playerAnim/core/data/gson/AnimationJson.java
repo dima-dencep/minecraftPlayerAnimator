@@ -74,8 +74,17 @@ public class AnimationJson implements JsonDeserializer<List<KeyframeAnimation>>,
                 } else if (p.isNumber()) {
                     emote.extraData.put(string, p.getAsDouble());
                 } else emote.extraData.put(string, p.toString()); //Best solution ever :D
-            }
 
+            } else if ("bages".equals(string) && value.isJsonArray()) {
+                JsonArray array = value.getAsJsonArray();
+                List<String> bages = new ArrayList<>(array.size());
+                for (JsonElement element : array) {
+                    try {
+                        bages.add(element.toString());
+                    } catch (Throwable ignored) {}
+                }
+                emote.extraData.put("bages", bages);
+            }
         }
 
         emote.name = node.get("name").toString();
@@ -219,6 +228,12 @@ public class AnimationJson implements JsonDeserializer<List<KeyframeAnimation>>,
                 node.addProperty(s, (boolean) o);
             } else if (o instanceof JsonElement) {
                 node.add(s, (JsonElement)o);
+            } else if (o instanceof List<?> list) {
+                JsonArray array = new JsonArray(list.size());
+                for (Object element : list) {
+                    array.add(context.serialize(element));
+                }
+                node.add(s, array);
             }
         });
         node.add("emote", emoteSerializer(emote));
