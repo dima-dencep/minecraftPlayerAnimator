@@ -703,7 +703,7 @@ public final class KeyframeAnimation implements IPlayable {
             int result = tick;
             result = 31 * result + Float.hashCode(value);
             result = 31 * result + ease.getId();
-            result = 31 * result + (int)Math.floor((easingArg == null ? 0 : easingArg) * 100);
+            result = 31 * result + (easingArg == null ? 0 : (int) (easingArg * 100));
             return result;
         }
 
